@@ -2,6 +2,12 @@
 
 namespace nodejs_tf {
 
+Graph::Graph() {
+}
+
+Graph::~Graph() {
+}
+
 NAN_MODULE_INIT(Graph::Init) {
   auto fn = Nan::New<v8::FunctionTemplate>(Graph::New);
   auto fn_name = Nan::New("Graph").ToLocalChecked();
@@ -18,12 +24,6 @@ NAN_METHOD(Graph::New) {
   Graph *graph = new Graph();
   graph->Wrap(info.This());
   info.GetReturnValue().Set(info.This());
-}
-
-Graph::Graph() {
-}
-
-Graph::~Graph() {
 }
 
 }

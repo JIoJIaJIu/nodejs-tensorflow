@@ -13,10 +13,10 @@ class TensorShape: public Nan::ObjectWrap {
     static NAN_MODULE_INIT(Init);
     static NAN_METHOD(New);
 
+    tensorflow::TensorShape* self;
   private:
     TensorShape();
     ~TensorShape();
-    tensorflow::TensorShape* self;
 };
 
 }

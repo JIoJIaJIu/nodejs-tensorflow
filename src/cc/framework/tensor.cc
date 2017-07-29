@@ -37,12 +37,18 @@ NAN_METHOD(Tensor::New) {
   }
 
   Tensor* tensor;
-  auto dtype = static_cast<TF_DataType>(info[0]->IntegerValue());
-  if (info.Length() == 4 || !info[4]->IsArrayBuffer()) {
+  if (info.Length() == 2 || !info[4]->IsArrayBuffer()) {
+    auto dtype = static_cast<tensorflow::DataType>(info[0]->IntegerValue());
+    auto obj = info[1].As<v8::Object>();
+    TensorShape* tensor_shape = Nan::ObjectWrap::Unwrap<TensorShape>(obj);
+    tensor = new Tensor(dtype, *tensor_shape->self);
+    /*
     tensor = new Tensor(dtype, info[1]->IntegerValue(),
                                info[2]->IntegerValue(),
                                static_cast<size_t>(info[3]->IntegerValue()) );
+                               */
   } else {
+    auto dtype = static_cast<TF_DataType>(info[0]->IntegerValue());
     void* data = info[4].As<ArrayBuffer>()->Externalize().Data();
     tensor = new Tensor(dtype, info[1]->IntegerValue(),
                                info[2]->IntegerValue(),
@@ -57,17 +63,17 @@ NAN_METHOD(Tensor::shape) {
   Tensor* tensor = ObjectWrap::Unwrap<Tensor>(info.Holder());
 }
 
-void Tensor::ToString(const FunctionCallbackInfo<Value>& args) {
-  Isolate* isolate = args.GetIsolate();
-  Tensor* tensor = ObjectWrap::Unwrap<Tensor>(args.Holder());
+Tensor::Tensor(tensorflow::Tensor& tensor) {
+  this->self = &tensor;
+}
 
-  //args.GetReturnValue().Set(String::NewFromUtf8(isolate, tensor->self->DebugString().c_str()));
+Tensor::Tensor(tensorflow::DataType dtype, const tensorflow::TensorShape& shape) {
+  //this->self = new Tensor(dtype, shape);
 }
 
 Tensor::Tensor(TF_DataType dtype, int64_t dims, int num_dims, size_t len) {
   printf("Create Tensor:::dtype: %d, dims: %lu, num_dims: %d, len: %lu\n", dtype, dims, num_dims, len);
-
-  this->self = TF_AllocateTensor(dtype, &dims, num_dims, len);
+  //this->self = TF_AllocateTensor(dtype, &dims, num_dims, len);
 }
 
 void deallocator(void* data, size_t len, void* arg) {
@@ -76,14 +82,24 @@ void deallocator(void* data, size_t len, void* arg) {
 
 Tensor::Tensor(TF_DataType dtype, int64_t dims, int num_dims, size_t len, void* data) {
   printf("Create Tensor with data:::dtype: %d, dims: %lu, num_dims: %d, len: %lu\n", dtype, dims, num_dims, len);
+
+  tensorflow::TensorShape* shape_ = new tensorflow::TensorShape();
+  this->self = new tensorflow::Tensor(static_cast<tensorflow::DataType>(dtype), *shape_);
+  printf("Created Tensor %s\n", this->self->DebugString().c_str());
   //  TF_DataType, const int64_t* dims, int num_dims, void* data, size_t len,
   //  void (*deallocator)(void* data, size_t len, void* arg),
   //  void* deallocator_arg);
-  this->self = TF_NewTensor(dtype, &dims, num_dims, data, len, deallocator, NULL);
+  //this->self = TF_NewTensor(dtype, &dims, num_dims, data, len, deallocator, NULL);
 }
 
 Tensor::~Tensor() {
 }
 
+void Tensor::ToString(const FunctionCallbackInfo<Value>& args) {
+  Isolate* isolate = args.GetIsolate();
+  Tensor* tensor = ObjectWrap::Unwrap<Tensor>(args.Holder());
+
+  //args.GetReturnValue().Set(String::NewFromUtf8(isolate, tensor->self->DebugString().c_str()));
+}
 
 }
