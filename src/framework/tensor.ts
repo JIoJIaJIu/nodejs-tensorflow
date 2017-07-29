@@ -8,29 +8,27 @@ import TensorShape from './tensorShape'
  * Based on python [object](https://www.tensorflow.org/api_docs/python/tf/Tensor)
  */
 class Tensor {
-  private _self: object;
-  private _shape: TensorShape;
-  private _dtype: DataType;
+  public _self: object | null;
 
-  /**
-   * @param {ArrayBuffer} data
-   * @param {DataType} dtype
-   * @param {TensorShape} shape
-   */
+  private _shape: TensorShape | null;
+  private _dtype: DataType | null;
 
-  constructor(data: ArrayBuffer, dtype: DataType, shape: TensorShape) {
-    this._dtype = dtype;
-    this._shape = shape;
-    this._self = new tf_.Tensor(dtype.value, shape.dims, shape.ndims, shape.length, data);
+  protected constructor(tensor: any) {
+    this._self = tensor || null;
+  }
+
+  static wrap(tensor: any) {
+    return new Tensor(tensor);
   }
 
   /**
    * Returns TensorShape
    */
-  get shape() : TensorShape {
+  get shape() : TensorShape | null {
     return this._shape;
   }
 }
+
 
 /**
  * Create constant tensor
@@ -39,7 +37,12 @@ class Tensor {
  * @param {TensorShape} shape, required
  * @param {String} name
  */
-class Constant extends Tensor {
+class Constant {
+  _tensor: object;
+  _self: object | null;
+  //TODO:
+  static scope: object = new tf_.Scope();
+
   constructor(data: any, dtype: string | DataType, shape: TensorShape | number[]) {
     shape = TensorShape.create(shape);
 
@@ -53,7 +56,16 @@ class Constant extends Tensor {
     }
 
     dtype = DataType.create(dtype);
-    super(data, dtype, shape);
+
+    /**
+     * @param {ArrayBuffer} data
+     * @param {DataType} dtype
+     * @param {TensorShape} shape
+     */
+    const tensor = new tf_.Tensor(dtype.value, shape.dims, shape.ndims, shape.length, data);
+
+    this._tensor = Tensor.wrap(tensor);
+    this._self = new tf_.Constant(Constant.scope, this._tensor);
   }
 }
 

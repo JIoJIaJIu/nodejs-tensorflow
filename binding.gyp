@@ -8,7 +8,10 @@
         'src/cc/core/session.cc',
         'src/cc/framework/tensor.cc',
         'src/cc/framework/tensor_shape.cc',
-        'src/cc/framework/ops.cc'
+        'src/cc/framework/ops.cc',
+        'src/cc/framework/scope.cc',
+
+        'src/cc/framework/ops/constant.cc'
       ],
 
       'include_dirs': [

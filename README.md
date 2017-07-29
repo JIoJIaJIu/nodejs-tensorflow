@@ -20,6 +20,16 @@ var tf = require('nodejs-tensorflow');
 console.log(tf.version())
 ```
 
+## Proof of concept
+
+```javascript
+node1 = new tf.Constant(3.0);
+node2 = new tf.Constant(4.0);
+
+sess = tf.Session()
+print(sess.run([node1, node2]))
+```
+
 ## Similar projects
 
 * [yorkie](https://github.com/yorkie/tensorflow-nodejs) - wip, MIT

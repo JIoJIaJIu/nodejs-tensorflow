@@ -11,6 +11,9 @@
 #include "cc/framework/tensor.h"
 #include "cc/framework/tensor_shape.h"
 #include "cc/framework/ops.h"
+#include "cc/framework/scope.h"
+
+#include "cc/framework/ops/constant.h"
 
 namespace nodejs_tf {
 
@@ -35,6 +38,10 @@ void init(Local<Object> exports) {
   Session::Init(exports);
   Tensor::Init(exports);
   TensorShape::Init(exports);
+  Scope::Init(exports);
+
+  //operations
+  Constant::Init(exports);
 }
 
 NODE_MODULE(tensorflow, init)
