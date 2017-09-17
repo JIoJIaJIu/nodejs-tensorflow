@@ -22,6 +22,7 @@ addons:
 before_install:
   - cd third-party/tensorflow
   - bazel --output_base=./deps build @eigen_archive//:eigen
+  - bazel --output_base=./deps build @protobuf//:protoc_lib
   - bazel --output_base=./deps build //tensorflow/core:protos_all_cc
 
 install:
