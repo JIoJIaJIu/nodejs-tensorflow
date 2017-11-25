@@ -13,7 +13,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.proto$/,
-      loader: 'pbf-loader'
+      loader: 'proto-loader'
     }, {
       test: /\.ts$/,
       loader: 'awesome-typescript-loader'

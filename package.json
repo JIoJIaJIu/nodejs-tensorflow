@@ -61,8 +61,8 @@
     "mocha": "^3.4.2",
     "mocha-webpack": "^0.7.0",
     "nan": "^2.6.2",
-    "pbf-loader": "^1.1.0",
-    "protobufjs": "^6.8.0",
+    "proto-loader":"^0.2.0",
+    "protobufjs": "^5.0.2",
     "typescript": "^2.4.1",
     "webpack": "^1.12.9"
   }
