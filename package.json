@@ -13,7 +13,7 @@
   },
   "scripts": {
     "install": "npm run download_libs && npm run gyp",
-    "download_libs": "grunt --gruntfile tools/Gruntfile download_libtensorflow --force",
+    "download_libs": "grunt --gruntfile tools/Gruntfile download_libtensorflow",
     "gyp": "node-gyp configure build",
     "build": "webpack --config tools/webpack.config.js",
     "test": "mocha-webpack --colors --webpack-config tools/webpack.config.test.js --full-trace \"test/**/*.js\""
@@ -61,7 +61,7 @@
     "mocha": "^3.4.2",
     "mocha-webpack": "^0.7.0",
     "nan": "^2.6.2",
-    "proto-loader":"^0.2.0",
+    "proto-loader":"git+https://github.com/brianchirls/proto-loader.git",
     "protobufjs": "^5.0.2",
     "typescript": "^2.4.1",
     "webpack": "^1.12.9"

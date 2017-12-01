@@ -13,7 +13,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.proto$/,
-      loader: 'proto-loader'
+      loader: 'proto-loader?root=' + path.resolve(__dirname, '../third-party/tensorflow')
     }, {
       test: /\.ts$/,
       loader: 'awesome-typescript-loader'

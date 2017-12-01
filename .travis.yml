@@ -19,6 +19,9 @@ addons:
     - unzip
     - bazel
 
+env:
+  - TF_FORCE_LIB_DOWNLOAD=true
+
 before_install:
   - cd third-party/tensorflow
   - bazel --output_base=./deps build @eigen_archive//:eigen

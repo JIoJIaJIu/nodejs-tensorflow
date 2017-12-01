@@ -17,7 +17,7 @@ module.exports = function (grunt) {
   grunt.registerTask("download_libtensorflow", function () {
     var arch = os.arch();
     var platform = os.platform();
-    var force = grunt.option('force')
+    var force = process.env['TF_FORCE_LIB_DOWNLOAD'] || false
 
     console.log(format("Downloading libtensorflow (%s: %s)", platform, arch));
     createLibDir();
