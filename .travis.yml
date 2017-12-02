@@ -26,6 +26,7 @@ before_install:
   - cd third-party/tensorflow
   - bazel --output_base=./deps build @eigen_archive//:eigen
   - bazel --output_base=./deps build //tensorflow/core:protos_all_cc
+  - bazel --output_base=./deps build //tensorflow:libtensorflow_cc.so
 
 install:
   - npm i
