@@ -1,4 +1,10 @@
-import {DataType as proto} from '../../third-party/tensorflow/tensorflow/core/framework/types.proto';
+import * as protobuf from 'protobufjs'
+
+import * as typesProto from '../../third-party/tensorflow/tensorflow/core/framework/types.proto';
+
+const builder = protobuf.loadJson(typesProto);
+const Proto = builder.build("tensorflow.TypesProto");
+const proto = new Proto();
 
 class DataType {
   _alias: string | undefined;

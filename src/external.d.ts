@@ -19,7 +19,8 @@ declare module '*tensorflow.node' {
   }
 }
 
-declare module '*/types.proto' {
-  const DataType: any;
-  export {DataType};
-}
+declare module '*/types.proto'
+
+declare module '*/tensor.proto'
+
+declare module '*/tensor_shape.proto'
