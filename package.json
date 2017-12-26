@@ -54,7 +54,6 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.69",
-    "@types/protobufjs": "^5.0.2",
     "awesome-typescript-loader": "^3.2.1",
     "babel-core": "^6.25.0",
     "babel-loader": "7.1.1",
@@ -62,7 +61,7 @@
     "chai": "^4.0.2",
     "mocha": "^3.4.2",
     "mocha-webpack": "^0.7.0",
-    "nan": "^2.6.2",
+    "nan": "^2.8.0",
     "proto-loader": "git+https://github.com/brianchirls/proto-loader.git",
     "protobufjs": "^5.0.2",
     "typescript": "^2.4.1",

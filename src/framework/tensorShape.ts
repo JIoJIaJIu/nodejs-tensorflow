@@ -1,10 +1,15 @@
 import * as _ from 'lodash'
+import * as protobuf from 'protobufjs'
 
+import * as tensorShapeProto from '../../third-party/tensorflow/tensorflow/core/framework/tensor_shape.proto';
+
+import * as tf_ from 'tensorflow.node'
 /**
  * Built similar python [TensorShape](https://www.tensorflow.org/api_docs/python/tf/TensorShape)
  */
 class TensorShape {
   private _data: TensorDimension[];
+  private _self: any;
 
   static create(shape?: number[] | TensorShape): TensorShape {
     if (!shape) {
@@ -20,9 +25,14 @@ class TensorShape {
    * @param {Array} data
    */
   constructor(data?: number[]) {
-    this._data = _.map(data || [], value => {
-      return new TensorDimension(value);
-    });
+    let builder = protobuf.loadJson(tensorShapeProto);
+    let Proto = builder.build("tensorflow.TensorShapeProto");
+    let proto = new Proto();
+
+    _.forEach(data, size => {
+      proto.set({dim: {size: size}});
+    })
+    this._self = new tf_.TensorShape(proto.toArrayBuffer());
   }
 
   /**

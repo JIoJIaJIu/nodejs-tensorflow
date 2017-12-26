@@ -19,6 +19,8 @@ declare module '*tensorflow.node' {
   }
 }
 
+declare module 'protobufjs'
+
 declare module '*/types.proto'
 
 declare module '*/tensor.proto'
