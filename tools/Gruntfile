@@ -1,3 +1,11 @@
+/**
+ * Supported environment variables
+ *
+ * TF_VERSION: point Tensorflow version
+ * TF_FORCE_LIB_DOWNLOAD: force downloading compiled libs
+ */
+var _ = require('lodash');
+
 var fs = require('fs');
 var path = require('path');
 var os = require('os');
@@ -7,7 +15,12 @@ var request = require('request');
 var progress = require('request-progress');
 var log = require('single-line-log').stdout;
 
-var LINUX_X64_LIB = 'https://s3.amazonaws.com/jiojiajiu-tensorflow/v1.2.0-rc2/linux_x86_64/libtensorflow_cc.so';
+var VERSION = process.env['TF_VERSION'] || 'v1.2.0-rc2';
+var LINUX_X64_LIBS = [
+  'https://s3.amazonaws.com/jiojiajiu-tensorflow/' + VERSION + '/linux_x86_64/libtensorflow_cc.so',
+  //'https://s3.amazonaws.com/jiojiajiu-tensorflow/' + VERSION + '/linux_x86_64/libprotoc_lib.so',
+  //'https://s3.amazonaws.com/jiojiajiu-tensorflow/' + VERSION + '/linux_x86_64/libprotos_all_cc.so',
+]
 
 module.exports = function (grunt) {
   grunt.initConfig({});
@@ -17,33 +30,41 @@ module.exports = function (grunt) {
   grunt.registerTask("download_libtensorflow", function () {
     var arch = os.arch();
     var platform = os.platform();
-    var force = process.env['TF_FORCE_LIB_DOWNLOAD'] || false
 
-    console.log(format("Downloading libtensorflow (%s: %s)", platform, arch));
     createLibDir();
 
     if (platform === 'linux') {
       if (arch === 'x64') {
-        var libname = path.basename(LINUX_X64_LIB);
-        var libPath = path.resolve(__dirname, '../lib', libname);
-
-        if (!fs.existsSync(libPath) || force) {
-          done = this.async();
-          progress(request(LINUX_X64_LIB))
-            .on('progress', function (state) {
-              log(format("%d%", Math.round(state.percent * 10000) / 100));
-            })
-            .on('end', done)
-            .pipe(fs.createWriteStream(libPath));
-        } else {
-          console.info("The library already exists");
-        }
+        _.forEach(LINUX_X64_LIBS, _.bind(_.partial(fetchLib, platform, arch), this));
         return;
       }
     }
 
     throw new Error(format("Unsupported system configuration (%s: %s)", platform, arch));
   });
+}
+
+function fetchLib(platform, arch, url) {
+    var force = process.env['TF_FORCE_LIB_DOWNLOAD'] || false
+    var libname = path.basename(url);
+    var libPath = path.resolve(__dirname, '../lib', libname);
+    console.log(format("Downloading %s (%s: %s)", libname, platform, arch));
+    console.log(url)
+
+    if (!fs.existsSync(libPath) || force) {
+      done = this.async();
+      progress(request(url))
+        .on('progress', function (state) {
+          if (this.response.statusCode != 200) {
+            throw new Error(this.response.statusMessage);
+          }
+          log(format("%d%", Math.round(state.percent * 10000) / 100));
+        })
+        .on('end', done)
+        .pipe(fs.createWriteStream(libPath));
+    } else {
+      console.info("The library already exists");
+    }
 }
 
 function createLibDir() {
