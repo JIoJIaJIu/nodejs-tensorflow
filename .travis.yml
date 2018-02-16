@@ -7,22 +7,36 @@ group: deprecated-2017Q2
 addons:
   apt:
     sources:
+    # not used temporary
     - sourceline: deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable
         jdk1.8
       key_url: https://bazel.build/bazel-release.pub.gpg
+    - ubuntu-toolchain-r-test
     packages:
     - python-pip
     - pkg-config
     - zip
-    - g++
     - zlib1g-dev
     - unzip
-    - bazel
+    - g++-4.9
 
 env:
   - TF_FORCE_LIB_DOWNLOAD=true
+    LD_LIBRARY_PATH=/usr/local/lib
+    C_INCLUDE_PATH=/usr/local/include
+    CPLUS_INCLUDE_PATH=/usr/local/include
 
 before_install:
+  - cat /etc/ld.so.conf
+  - curl -LO "http://infinity.kmeacollege.ac.in/gnu/libc/glibc-2.25.tar.gz" &&  tar xvf glibc-2.25.tar.gz > /dev/null
+  - cd glibc-2.25 && mkdir build && cd build 
+  - ../configure --disable-sanity-checks && make > /dev/null
+  - mkdir -p /usr/local/etc touch /usr/local/etc/ld.so.conf
+  - sudo make install && cd ../..
+
+  # https://github.com/bazelbuild/continuous-integration/issues/128
+  - curl -LO "https://github.com/bazelbuild/bazel/releases/download/0.5.2/bazel_0.5.2-linux-x86_64.deb" && sudo dpkg -i bazel_*.deb
+
   - cd third-party/tensorflow
   - bazel --output_base=./deps build @eigen_archive//:eigen
   - bazel --output_base=./deps build //tensorflow/core:protos_all_cc
