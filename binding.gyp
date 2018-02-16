@@ -17,10 +17,11 @@
       'include_dirs': [
         '<!(node -e "require(\'nan\')")',
         'third-party/tensorflow',
+        'third-party/tensorflow/deps/execroot/org_tensorflow/bazel-out/local-opt/genfiles',
+
         'third-party/tensorflow/deps/external/eigen_archive',
         'third-party/tensorflow/deps/external/protobuf/src',
-        'third-party/tensorflow/deps/execroot/org_tensorflow/bazel-out/local-opt/genfiles',
-        'third-party/tensorflow/deps/execroot/org_tensorflow/bazel-out/local-py3-opt/genfiles'
+#        'third-party/tensorflow/deps/execroot/org_tensorflow/bazel-out/local-py3-opt/genfiles'
       ],
 
       'conditions': [

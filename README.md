@@ -6,8 +6,13 @@
 Current version is based on [c_api](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/c/c_api.h)  
 Next (`>=0.10.0`) should be integrated with all Tensorflow stack
 
-## Installation
+## Usage
 
+### Dependencies
+
+* Protobuf >= 3.3.0
+
+### Installation
 ```sh
 npm install --save-dev https://github.com/nodejs-tensorflow/nodejs-tensorflow/releases/download/v0.0.1/nodejs-tensorflow-0.0.1.tgz
 ```
@@ -20,7 +25,7 @@ var tf = require('nodejs-tensorflow');
 console.log(tf.version())
 ```
 
-## Proof of concept
+## POC
 
 ```javascript
 node1 = new tf.Constant(3.0);

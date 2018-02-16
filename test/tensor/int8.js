@@ -6,14 +6,14 @@ import {Array2D, Array3D} from './matrixes'
 
 describe('Unit uint8 Tensor', function () {
 
-  describe('2D Marray', function () {
+  describe.skip('2D Marray', function () {
     let marray;
 
     beforeEach(function () {
       marray = new MArray(Array2D, 'uint8', [3, 4]);
       should();
     });
-    
+
     it('Iterate 2D MArray', function () {
       marray[0].should.to.equal(1);
       marray[1].should.to.equal(2);
@@ -37,7 +37,7 @@ describe('Unit uint8 Tensor', function () {
     });
   });
 
-  describe('3D Marray', function () {
+  describe.skip('3D Marray', function () {
     let marray;
 
     beforeEach(function () {
@@ -60,7 +60,7 @@ describe('Unit uint8 Tensor', function () {
       marray[10].should.to.equal(12);
       marray[11].should.to.equal(13);
     });
-    
+
     it('Check buffer', function () {
       marray.buffer.should.be.an('arraybuffer');
       marray.buffer.byteLength.should.equal(12);

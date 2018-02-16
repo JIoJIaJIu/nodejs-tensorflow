@@ -17,9 +17,7 @@ var log = require('single-line-log').stdout;
 
 var VERSION = process.env['TF_VERSION'] || 'v1.2.0-rc2';
 var LINUX_X64_LIBS = [
-  'https://s3.amazonaws.com/jiojiajiu-tensorflow/' + VERSION + '/linux_x86_64/libtensorflow_cc.so',
-  //'https://s3.amazonaws.com/jiojiajiu-tensorflow/' + VERSION + '/linux_x86_64/libprotoc_lib.so',
-  //'https://s3.amazonaws.com/jiojiajiu-tensorflow/' + VERSION + '/linux_x86_64/libprotos_all_cc.so',
+  'https://s3.amazonaws.com/jiojiajiu-tensorflow/' + VERSION + '/linux_x86_64/libtensorflow_cc.so'
 ]
 
 module.exports = function (grunt) {

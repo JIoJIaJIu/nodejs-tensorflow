@@ -4,7 +4,7 @@ import tf from '../src/index';
 
 describe('Unit testing Tensor module', function () {
   describe('MArray', function () {
-    it('Create simple MArray', function () {
+    xit('Create simple MArray', function () {
       let marray = new tf.MArray([1, 2], 'int', [2])
       expect(marray).to.exist;
     });

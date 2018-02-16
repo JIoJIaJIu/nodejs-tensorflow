@@ -8,7 +8,6 @@ import * as tf_ from 'tensorflow.node'
  * Built similar python [TensorShape](https://www.tensorflow.org/api_docs/python/tf/TensorShape)
  */
 class TensorShape {
-  private _data: TensorDimension[];
   private _self: any;
 
   static create(shape?: number[] | TensorShape): TensorShape {
@@ -39,24 +38,19 @@ class TensorShape {
    * Returns TensorShape as an Array
    */
   asList(): number[] {
-    return _.map(this._data, dims => dims.power);
-  }
-
-  get length() {
-    return this._data.length;
+    throw new Error("Not implemented");
   }
 
   get dims(): TensorDimension[] {
-    return this._data;
+    throw new Error("Not implemented");
   }
 
   get ndims() {
-    return this.length;
+    throw new Error("Not implemented");
   }
 
   toString = (): string => {
-    let dims = `[${this.dims.join(', ')}]`;
-    return `TensorShape# ${dims} =${this.length}`
+    throw new Error("Not implemented");
   }
 }
 

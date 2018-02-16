@@ -1,4 +1,7 @@
 import * as _ from 'lodash'
+import * as protobuf from 'protobufjs'
+
+import * as tensorProto from '../../third-party/tensorflow/tensorflow/core/framework/tensor.proto';
 
 import * as tf_ from 'tensorflow.node'
 import DataType from './dtypes'
@@ -44,6 +47,7 @@ class Constant {
   static scope: object = new tf_.Scope();
 
   constructor(data: any, dtype: string | DataType, shape: TensorShape | number[]) {
+    /*
     shape = TensorShape.create(shape);
 
     if (data instanceof Tensor) {
@@ -56,16 +60,19 @@ class Constant {
     }
 
     dtype = DataType.create(dtype);
+     */
 
     /**
      * @param {ArrayBuffer} data
      * @param {DataType} dtype
      * @param {TensorShape} shape
      */
+    /*
     const tensor = new tf_.Tensor(dtype.value, shape.dims, shape.ndims, shape.length, data);
 
     this._tensor = Tensor.wrap(tensor);
     this._self = new tf_.Constant(Constant.scope, this._tensor);
+     */
   }
 }
 
